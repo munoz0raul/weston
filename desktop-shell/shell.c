@@ -229,7 +229,7 @@ shell_surface_update_child_surface_layers(struct shell_surface *shsurf);
 static void
 destroy_shell_grab_shsurf(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_grab *grab;
 
 	grab = container_of(listener, struct shell_grab,
@@ -241,7 +241,7 @@ destroy_shell_grab_shsurf(struct wl_listener *listener, void *data)
 struct weston_view *
 get_default_view(struct weston_surface *surface)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf;
 	struct weston_view *view;
 
@@ -262,7 +262,7 @@ get_default_view(struct weston_surface *surface)
 static void
 desktop_shell_destroy_surface(struct shell_surface *shsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf_child, *tmp;
 
 	wl_list_for_each_safe(shsurf_child, tmp, &shsurf->children_list, children_link) {
@@ -291,7 +291,7 @@ shell_grab_start(struct shell_grab *grab,
 		 struct weston_pointer *pointer,
 		 enum weston_desktop_shell_cursor cursor)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = shsurf->shell;
 
 	weston_seat_break_desktop_grabs(pointer->seat);
@@ -320,7 +320,7 @@ get_panel_size(struct desktop_shell *shell,
 	       int *width,
 	       int *height)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	float x1, y1;
 	float x2, y2;
 	weston_view_to_global_float(view, 0, 0, &x1, &y1);
@@ -338,7 +338,7 @@ get_output_panel_size(struct desktop_shell *shell,
 		      int *width,
 		      int *height)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_view *view;
 
 	*width = 0;
@@ -362,7 +362,7 @@ get_output_work_area(struct desktop_shell *shell,
 		     struct weston_output *output,
 		     pixman_rectangle32_t *area)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	int32_t panel_width = 0, panel_height = 0;
 
 	if (!output) {
@@ -400,7 +400,7 @@ get_output_work_area(struct desktop_shell *shell,
 static void
 shell_grab_end(struct shell_grab *grab)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	if (grab->shsurf) {
 		wl_list_remove(&grab->shsurf_destroy_listener.link);
 		grab->shsurf->grabbed = 0;
@@ -419,7 +419,7 @@ shell_touch_grab_start(struct shell_touch_grab *grab,
 		       struct shell_surface *shsurf,
 		       struct weston_touch *touch)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = shsurf->shell;
 
 	weston_seat_break_desktop_grabs(touch->seat);
@@ -442,7 +442,7 @@ shell_touch_grab_start(struct shell_touch_grab *grab,
 static void
 shell_touch_grab_end(struct shell_touch_grab *grab)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	if (grab->shsurf) {
 		wl_list_remove(&grab->shsurf_destroy_listener.link);
 		grab->shsurf->grabbed = 0;
@@ -454,7 +454,7 @@ shell_touch_grab_end(struct shell_touch_grab *grab)
 static enum weston_keyboard_modifier
 get_modifier(char *modifier)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	if (!modifier)
 		return MODIFIER_SUPER;
 
@@ -473,7 +473,7 @@ get_modifier(char *modifier)
 static enum animation_type
 get_animation_type(char *animation)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	if (!animation)
 		return ANIMATION_NONE;
 
@@ -490,7 +490,7 @@ get_animation_type(char *animation)
 static void
 shell_configuration(struct desktop_shell *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_config_section *section;
 	char *s, *client;
 	bool allow_zap;
@@ -539,8 +539,8 @@ shell_configuration(struct desktop_shell *shell)
 static int
 focus_surface_get_label(struct weston_surface *surface, char *buf, size_t len)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
-	return snprintf(buf, len, "focus highlight effect for output %s",
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	return snweston_log(buf, len, "focus highlight effect for output %s",
 			(surface->output ? surface->output->name : "NULL"));
 }
 
@@ -548,13 +548,13 @@ focus_surface_get_label(struct weston_surface *surface, char *buf, size_t len)
 static void
 focus_surface_committed(struct weston_surface *es, int32_t sx, int32_t sy)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 }
 
 static struct focus_surface *
 get_focus_surface(struct weston_surface *surface)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	if (surface->committed == focus_surface_committed)
 		return surface->committed_private;
 	else
@@ -564,14 +564,14 @@ get_focus_surface(struct weston_surface *surface)
 static bool
 is_focus_surface (struct weston_surface *es)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	return (es->committed == focus_surface_committed);
 }
 
 static bool
 is_focus_view (struct weston_view *view)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	return is_focus_surface (view->surface);
 }
 
@@ -579,7 +579,7 @@ static struct focus_surface *
 create_focus_surface(struct weston_compositor *ec,
 		     struct weston_output *output)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct focus_surface *fsurf = NULL;
 	struct weston_surface *surface = NULL;
 
@@ -626,7 +626,7 @@ create_focus_surface(struct weston_compositor *ec,
 static void
 focus_surface_destroy(struct focus_surface *fsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	weston_surface_destroy(fsurf->surface);
 	free(fsurf);
 }
@@ -634,7 +634,7 @@ focus_surface_destroy(struct focus_surface *fsurf)
 static void
 focus_animation_done(struct weston_view_animation *animation, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct workspace *ws = data;
 
 	ws->focus_animation = NULL;
@@ -643,7 +643,7 @@ focus_animation_done(struct weston_view_animation *animation, void *data)
 static void
 focus_state_destroy(struct focus_state *state)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	wl_list_remove(&state->seat_destroy_listener.link);
 	wl_list_remove(&state->surface_destroy_listener.link);
 	free(state);
@@ -652,7 +652,7 @@ focus_state_destroy(struct focus_state *state)
 static void
 focus_state_seat_destroy(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct focus_state *state = container_of(listener,
 						 struct focus_state,
 						 seat_destroy_listener);
@@ -664,7 +664,7 @@ focus_state_seat_destroy(struct wl_listener *listener, void *data)
 static void
 focus_state_surface_destroy(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct focus_state *state = container_of(listener,
 						 struct focus_state,
 						 surface_destroy_listener);
@@ -720,7 +720,7 @@ static struct focus_state *
 focus_state_create(struct desktop_shell *shell, struct weston_seat *seat,
 		   struct workspace *ws)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct focus_state *state;
 
 	state = malloc(sizeof *state);
@@ -745,7 +745,7 @@ focus_state_create(struct desktop_shell *shell, struct weston_seat *seat,
 static struct focus_state *
 ensure_focus_state(struct desktop_shell *shell, struct weston_seat *seat)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct workspace *ws = get_current_workspace(shell);
 	struct focus_state *state;
 
@@ -763,7 +763,7 @@ static void
 focus_state_set_focus(struct focus_state *state,
 		      struct weston_surface *surface)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	if (state->keyboard_focus) {
 		wl_list_remove(&state->surface_destroy_listener.link);
 		wl_list_init(&state->surface_destroy_listener.link);
@@ -778,7 +778,7 @@ focus_state_set_focus(struct focus_state *state,
 static void
 restore_focus_state(struct desktop_shell *shell, struct workspace *ws)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct focus_state *state, *next;
 	struct weston_surface *surface;
 	struct wl_list pending_seat_list;
@@ -825,7 +825,7 @@ static void
 replace_focus_state(struct desktop_shell *shell, struct workspace *ws,
 		    struct weston_seat *seat)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_keyboard *keyboard = weston_seat_get_keyboard(seat);
 	struct focus_state *state;
 
@@ -841,7 +841,7 @@ static void
 drop_focus_state(struct desktop_shell *shell, struct workspace *ws,
 		 struct weston_surface *surface)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct focus_state *state;
 
 	wl_list_for_each(state, &ws->focus_list, link)
@@ -853,7 +853,7 @@ static void
 animate_focus_change(struct desktop_shell *shell, struct workspace *ws,
 		     struct weston_view *from, struct weston_view *to)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_output *output;
 	bool focus_surface_created = false;
 
@@ -921,7 +921,7 @@ desktop_shell_destroy_layer(struct weston_layer *layer);
 static void
 workspace_destroy(struct workspace *ws)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct focus_state *state, *next;
 
 	wl_list_for_each_safe(state, next, &ws->focus_list, link)
@@ -939,7 +939,7 @@ workspace_destroy(struct workspace *ws)
 static void
 seat_destroyed(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_seat *seat = data;
 	struct focus_state *state, *next;
 	struct workspace *ws = container_of(listener,
@@ -954,7 +954,7 @@ seat_destroyed(struct wl_listener *listener, void *data)
 static struct workspace *
 workspace_create(struct desktop_shell *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct workspace *ws = malloc(sizeof *ws);
 	if (ws == NULL)
 		return NULL;
@@ -974,14 +974,14 @@ workspace_create(struct desktop_shell *shell)
 static int
 workspace_is_empty(struct workspace *ws)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	return wl_list_empty(&ws->layer.view_list.link);
 }
 
 static struct workspace *
 get_workspace(struct desktop_shell *shell, unsigned int index)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct workspace **pws = shell->workspaces.array.data;
 	assert(index < shell->workspaces.num);
 	pws += index;
@@ -991,14 +991,14 @@ get_workspace(struct desktop_shell *shell, unsigned int index)
 struct workspace *
 get_current_workspace(struct desktop_shell *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	return get_workspace(shell, shell->workspaces.current);
 }
 
 static void
 activate_workspace(struct desktop_shell *shell, unsigned int index)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct workspace *ws;
 
 	ws = get_workspace(shell, index);
@@ -1010,14 +1010,14 @@ activate_workspace(struct desktop_shell *shell, unsigned int index)
 static unsigned int
 get_output_height(struct weston_output *output)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	return abs(output->region.extents.y1 - output->region.extents.y2);
 }
 
 static struct weston_transform *
 view_get_transform(struct weston_view *view)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct focus_surface *fsurf = NULL;
 	struct shell_surface *shsurf = NULL;
 
@@ -1036,7 +1036,7 @@ view_get_transform(struct weston_view *view)
 static void
 view_translate(struct workspace *ws, struct weston_view *view, double d)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_transform *transform = view_get_transform(view);
 
 	if (!transform)
@@ -1055,7 +1055,7 @@ view_translate(struct workspace *ws, struct weston_view *view, double d)
 static void
 workspace_translate_out(struct workspace *ws, double fraction)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_view *view;
 	unsigned int height;
 	double d;
@@ -1071,7 +1071,7 @@ workspace_translate_out(struct workspace *ws, double fraction)
 static void
 workspace_translate_in(struct workspace *ws, double fraction)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_view *view;
 	unsigned int height;
 	double d;
@@ -1094,7 +1094,7 @@ reverse_workspace_change_animation(struct desktop_shell *shell,
 				   struct workspace *from,
 				   struct workspace *to)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	shell->workspaces.current = index;
 
 	shell->workspaces.anim_to = to;
@@ -1111,7 +1111,7 @@ reverse_workspace_change_animation(struct desktop_shell *shell,
 static void
 workspace_deactivate_transforms(struct workspace *ws)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_view *view;
 	struct weston_transform *transform;
 
@@ -1133,7 +1133,7 @@ finish_workspace_change_animation(struct desktop_shell *shell,
 				  struct workspace *from,
 				  struct workspace *to)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_view *view;
 
 	weston_compositor_schedule_repaint(shell->compositor);
@@ -1158,7 +1158,7 @@ animate_workspace_change_frame(struct weston_animation *animation,
 			       struct weston_output *output,
 			       const struct timespec *time)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell =
 		container_of(animation, struct desktop_shell,
 			     workspaces.animation);
@@ -1212,7 +1212,7 @@ animate_workspace_change(struct desktop_shell *shell,
 			 struct workspace *from,
 			 struct workspace *to)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_output *output;
 
 	int dir;
@@ -1249,7 +1249,7 @@ static void
 update_workspace(struct desktop_shell *shell, unsigned int index,
 		 struct workspace *from, struct workspace *to)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	shell->workspaces.current = index;
 	weston_layer_set_position(&to->layer, WESTON_LAYER_POSITION_NORMAL);
 	weston_layer_unset_position(&from->layer);
@@ -1258,7 +1258,7 @@ update_workspace(struct desktop_shell *shell, unsigned int index,
 static void
 change_workspace(struct desktop_shell *shell, unsigned int index)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct workspace *from;
 	struct workspace *to;
 	struct focus_state *state;
@@ -1308,7 +1308,7 @@ change_workspace(struct desktop_shell *shell, unsigned int index)
 static bool
 workspace_has_only(struct workspace *ws, struct weston_surface *surface)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct wl_list *list = &ws->layer.view_list.link;
 	struct wl_list *e;
 
@@ -1326,7 +1326,7 @@ workspace_has_only(struct workspace *ws, struct weston_surface *surface)
 static void
 surface_keyboard_focus_lost(struct weston_surface *surface)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_compositor *compositor = surface->compositor;
 	struct weston_seat *seat;
 	struct weston_surface *focus;
@@ -1349,7 +1349,7 @@ take_surface_to_workspace_by_seat(struct desktop_shell *shell,
 				  struct weston_seat *seat,
 				  unsigned int index)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_keyboard *keyboard = weston_seat_get_keyboard(seat);
 	struct weston_surface *surface;
 	struct weston_view *view;
@@ -1412,14 +1412,14 @@ touch_move_grab_down(struct weston_touch_grab *grab,
 		     const struct timespec *time,
 		     int touch_id, wl_fixed_t x, wl_fixed_t y)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 }
 
 static void
 touch_move_grab_up(struct weston_touch_grab *grab, const struct timespec *time,
 		   int touch_id)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_touch_move_grab *move =
 		(struct weston_touch_move_grab *) container_of(
 			grab, struct shell_touch_grab, grab);
@@ -1438,7 +1438,7 @@ touch_move_grab_motion(struct weston_touch_grab *grab,
 		       const struct timespec *time, int touch_id,
 		       wl_fixed_t x, wl_fixed_t y)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_touch_move_grab *move = (struct weston_touch_move_grab *) grab;
 	struct shell_surface *shsurf = move->base.shsurf;
 	struct weston_surface *es;
@@ -1458,13 +1458,13 @@ touch_move_grab_motion(struct weston_touch_grab *grab,
 static void
 touch_move_grab_frame(struct weston_touch_grab *grab)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 }
 
 static void
 touch_move_grab_cancel(struct weston_touch_grab *grab)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_touch_move_grab *move =
 		(struct weston_touch_move_grab *) container_of(
 			grab, struct shell_touch_grab, grab);
@@ -1484,7 +1484,7 @@ static const struct weston_touch_grab_interface touch_move_grab_interface = {
 static int
 surface_touch_move(struct shell_surface *shsurf, struct weston_touch *touch)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_touch_move_grab *move;
 
 	if (!shsurf)
@@ -1513,7 +1513,7 @@ surface_touch_move(struct shell_surface *shsurf, struct weston_touch *touch)
 static void
 noop_grab_focus(struct weston_pointer_grab *grab)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 }
 
 static void
@@ -1521,26 +1521,26 @@ noop_grab_axis(struct weston_pointer_grab *grab,
 	       const struct timespec *time,
 	       struct weston_pointer_axis_event *event)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 }
 
 static void
 noop_grab_axis_source(struct weston_pointer_grab *grab,
 		      uint32_t source)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 }
 
 static void
 noop_grab_frame(struct weston_pointer_grab *grab)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 }
 
 static void
 constrain_position(struct weston_move_grab *move, int *cx, int *cy)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf = move->base.shsurf;
 	struct weston_surface *surface =
 		weston_desktop_surface_get_surface(shsurf->desktop_surface);
@@ -1578,7 +1578,7 @@ move_grab_motion(struct weston_pointer_grab *grab,
 		 const struct timespec *time,
 		 struct weston_pointer_motion_event *event)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_move_grab *move = (struct weston_move_grab *) grab;
 	struct weston_pointer *pointer = grab->pointer;
 	struct shell_surface *shsurf = move->base.shsurf;
@@ -1602,7 +1602,7 @@ static void
 move_grab_button(struct weston_pointer_grab *grab,
 		 const struct timespec *time, uint32_t button, uint32_t state_w)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_grab *shell_grab = container_of(grab, struct shell_grab,
 						    grab);
 	struct weston_pointer *pointer = grab->pointer;
@@ -1618,7 +1618,7 @@ move_grab_button(struct weston_pointer_grab *grab,
 static void
 move_grab_cancel(struct weston_pointer_grab *grab)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_grab *shell_grab =
 		container_of(grab, struct shell_grab, grab);
 
@@ -1640,7 +1640,7 @@ static int
 surface_move(struct shell_surface *shsurf, struct weston_pointer *pointer,
 	     bool client_initiated)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_move_grab *move;
 
 	if (!shsurf)
@@ -1678,7 +1678,7 @@ resize_grab_motion(struct weston_pointer_grab *grab,
 		   const struct timespec *time,
 		   struct weston_pointer_motion_event *event)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_resize_grab *resize = (struct weston_resize_grab *) grab;
 	struct weston_pointer *pointer = grab->pointer;
 	struct shell_surface *shsurf = resize->base.shsurf;
@@ -1734,7 +1734,7 @@ resize_grab_button(struct weston_pointer_grab *grab,
 		   const struct timespec *time,
 		   uint32_t button, uint32_t state_w)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_resize_grab *resize = (struct weston_resize_grab *) grab;
 	struct weston_pointer *pointer = grab->pointer;
 	enum wl_pointer_button_state state = state_w;
@@ -1756,7 +1756,7 @@ resize_grab_button(struct weston_pointer_grab *grab,
 static void
 resize_grab_cancel(struct weston_pointer_grab *grab)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_resize_grab *resize = (struct weston_resize_grab *) grab;
 
 	if (resize->base.shsurf != NULL) {
@@ -1784,7 +1784,7 @@ static int
 surface_resize(struct shell_surface *shsurf,
 	       struct weston_pointer *pointer, uint32_t edges)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_resize_grab *resize;
 	const unsigned resize_topbottom =
 		WL_SHELL_SURFACE_RESIZE_TOP | WL_SHELL_SURFACE_RESIZE_BOTTOM;
@@ -1825,7 +1825,7 @@ surface_resize(struct shell_surface *shsurf,
 static void
 busy_cursor_grab_focus(struct weston_pointer_grab *base)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_grab *grab = (struct shell_grab *) base;
 	struct weston_pointer *pointer = base->pointer;
 	struct weston_desktop_surface *desktop_surface;
@@ -1848,7 +1848,7 @@ busy_cursor_grab_motion(struct weston_pointer_grab *grab,
 			const struct timespec *time,
 			struct weston_pointer_motion_event *event)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	weston_pointer_move(grab->pointer, event);
 }
 
@@ -1857,7 +1857,7 @@ busy_cursor_grab_button(struct weston_pointer_grab *base,
 			const struct timespec *time,
 			uint32_t button, uint32_t state)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_grab *grab = (struct shell_grab *) base;
 	struct shell_surface *shsurf = grab->shsurf;
 	struct weston_pointer *pointer = grab->grab.pointer;
@@ -1877,7 +1877,7 @@ busy_cursor_grab_button(struct weston_pointer_grab *base,
 static void
 busy_cursor_grab_cancel(struct weston_pointer_grab *base)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_grab *grab = (struct shell_grab *) base;
 
 	shell_grab_end(grab);
@@ -1897,7 +1897,7 @@ static const struct weston_pointer_grab_interface busy_cursor_grab_interface = {
 static void
 handle_pointer_focus(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_pointer *pointer = data;
 	struct weston_view *view = pointer->focus;
 	struct shell_surface *shsurf;
@@ -1921,7 +1921,7 @@ handle_pointer_focus(struct wl_listener *listener, void *data)
 static void
 shell_surface_deactivate(struct shell_surface *shsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	if (--shsurf->focus_count == 0)
 		weston_desktop_surface_set_activated(shsurf->desktop_surface, false);
 }
@@ -1929,7 +1929,7 @@ shell_surface_deactivate(struct shell_surface *shsurf)
 static void
 shell_surface_activate(struct shell_surface *shsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	if (shsurf->focus_count++ == 0)
 		weston_desktop_surface_set_activated(shsurf->desktop_surface, true);
 }
@@ -1940,7 +1940,7 @@ shell_surface_activate(struct shell_surface *shsurf)
 static struct weston_layer_entry *
 shell_surface_calculate_layer_link (struct shell_surface *shsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct workspace *ws;
 
 	if (weston_desktop_surface_get_fullscreen(shsurf->desktop_surface) &&
@@ -1958,7 +1958,7 @@ shell_surface_calculate_layer_link (struct shell_surface *shsurf)
 static void
 shell_surface_update_child_surface_layers (struct shell_surface *shsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	weston_desktop_surface_propagate_layer(shsurf->desktop_surface);
 }
 
@@ -1970,7 +1970,7 @@ shell_surface_update_child_surface_layers (struct shell_surface *shsurf)
 static void
 shell_surface_update_layer(struct shell_surface *shsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *surface =
 		weston_desktop_surface_get_surface(shsurf->desktop_surface);
 	struct weston_layer_entry *new_layer_link;
@@ -1994,7 +1994,7 @@ shell_surface_update_layer(struct shell_surface *shsurf)
 static void
 notify_output_destroy(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf =
 		container_of(listener,
 			     struct shell_surface, output_destroy_listener);
@@ -2007,7 +2007,7 @@ static void
 shell_surface_set_output(struct shell_surface *shsurf,
                          struct weston_output *output)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *es =
 		weston_desktop_surface_get_surface(shsurf->desktop_surface);
 
@@ -2040,7 +2040,7 @@ weston_view_set_initial_position(struct weston_view *view,
 static void
 unset_fullscreen(struct shell_surface *shsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	/* Unset the fullscreen output, driver configuration and transforms. */
 	wl_list_remove(&shsurf->fullscreen.transform.link);
 	wl_list_init(&shsurf->fullscreen.transform.link);
@@ -2066,7 +2066,7 @@ unset_fullscreen(struct shell_surface *shsurf)
 static void
 unset_maximized(struct shell_surface *shsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *surface =
 		weston_desktop_surface_get_surface(shsurf->desktop_surface);
 
@@ -2090,7 +2090,7 @@ unset_maximized(struct shell_surface *shsurf)
 static void
 set_minimized(struct weston_surface *surface)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf;
 	struct workspace *current_ws;
 	struct weston_view *view;
@@ -2124,21 +2124,21 @@ set_minimized(struct weston_surface *surface)
 static struct desktop_shell *
 shell_surface_get_shell(struct shell_surface *shsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	return shsurf->shell;
 }
 
 static int
 black_surface_get_label(struct weston_surface *surface, char *buf, size_t len)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_view *fs_view = surface->committed_private;
 	struct weston_surface *fs_surface = fs_view->surface;
 	int n;
 	int rem;
 	int ret;
 
-	n = snprintf(buf, len, "black background surface for ");
+	n = snweston_log(buf, len, "black background surface for ");
 	if (n < 0)
 		return n;
 
@@ -2149,7 +2149,7 @@ black_surface_get_label(struct weston_surface *surface, char *buf, size_t len)
 	if (fs_surface->get_label)
 		ret = fs_surface->get_label(fs_surface, buf + n, rem);
 	else
-		ret = snprintf(buf + n, rem, "<unknown>");
+		ret = snweston_log(buf + n, rem, "<unknown>");
 
 	if (ret < 0)
 		return n;
@@ -2165,7 +2165,7 @@ create_black_surface(struct weston_compositor *ec,
 		     struct weston_view *fs_view,
 		     float x, float y, int w, int h)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_solid_color_surface surface_data = {};
 
 	surface_data.surface_committed = black_surface_committed;
@@ -2185,7 +2185,7 @@ create_black_surface(struct weston_compositor *ec,
 static void
 shell_ensure_fullscreen_black_view(struct shell_surface *shsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *surface =
 		weston_desktop_surface_get_surface(shsurf->desktop_surface);
 	struct weston_output *output = shsurf->fullscreen_output;
@@ -2216,7 +2216,7 @@ shell_ensure_fullscreen_black_view(struct shell_surface *shsurf)
 static void
 shell_configure_fullscreen(struct shell_surface *shsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *surface =
 		weston_desktop_surface_get_surface(shsurf->desktop_surface);
 	int32_t surf_x, surf_y, surf_width, surf_height;
@@ -2245,14 +2245,14 @@ shell_configure_fullscreen(struct shell_surface *shsurf)
 static void
 shell_map_fullscreen(struct shell_surface *shsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	shell_configure_fullscreen(shsurf);
 }
 
 static void
 desktop_shell_destroy_seat(struct shell_seat *shseat)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 
 	wl_list_remove(&shseat->keyboard_focus_listener.link);
 	wl_list_remove(&shseat->caps_changed_listener.link);
@@ -2266,7 +2266,7 @@ desktop_shell_destroy_seat(struct shell_seat *shseat)
 static void
 destroy_shell_seat(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_seat *shseat =
 		container_of(listener,
 			     struct shell_seat, seat_destroy_listener);
@@ -2277,7 +2277,7 @@ destroy_shell_seat(struct wl_listener *listener, void *data)
 static void
 shell_seat_caps_changed(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_pointer *pointer;
 	struct shell_seat *seat;
 
@@ -2297,7 +2297,7 @@ shell_seat_caps_changed(struct wl_listener *listener, void *data)
 static struct shell_seat *
 create_shell_seat(struct desktop_shell *shell, struct weston_seat *seat)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_seat *shseat;
 
 	shseat = calloc(1, sizeof *shseat);
@@ -2330,7 +2330,7 @@ create_shell_seat(struct desktop_shell *shell, struct weston_seat *seat)
 static struct shell_seat *
 get_shell_seat(struct weston_seat *seat)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct wl_listener *listener;
 
 	if (!seat)
@@ -2347,7 +2347,7 @@ get_shell_seat(struct weston_seat *seat)
 static void
 fade_out_done_idle_cb(void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf = data;
 	desktop_shell_destroy_surface(shsurf);
 }
@@ -2355,7 +2355,7 @@ fade_out_done_idle_cb(void *data)
 static void
 fade_out_done(struct weston_view_animation *animation, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf = data;
 	struct wl_event_loop *loop;
 
@@ -2370,7 +2370,7 @@ fade_out_done(struct weston_view_animation *animation, void *data)
 struct shell_surface *
 get_shell_surface(struct weston_surface *surface)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	if (weston_surface_is_desktop_surface(surface)) {
 		struct weston_desktop_surface *desktop_surface =
 			weston_surface_get_desktop_surface(surface);
@@ -2387,7 +2387,7 @@ static void
 desktop_surface_added(struct weston_desktop_surface *desktop_surface,
 		      void *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_desktop_client *client =
 		weston_desktop_surface_get_client(desktop_surface);
 	struct wl_client *wl_client =
@@ -2446,7 +2446,7 @@ static void
 desktop_surface_removed(struct weston_desktop_surface *desktop_surface,
 			void *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf =
 		weston_desktop_surface_get_user_data(desktop_surface);
 	struct weston_surface *surface =
@@ -2513,7 +2513,7 @@ static void
 set_maximized_position(struct desktop_shell *shell,
 		       struct shell_surface *shsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	pixman_rectangle32_t area;
 	struct weston_geometry geometry;
 
@@ -2528,7 +2528,7 @@ set_maximized_position(struct desktop_shell *shell,
 static void
 set_position_from_xwayland(struct shell_surface *shsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_geometry geometry;
 	float x;
 	float y;
@@ -2552,7 +2552,7 @@ static void
 map(struct desktop_shell *shell, struct shell_surface *shsurf,
     int32_t sx, int32_t sy)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *surface =
 		weston_desktop_surface_get_surface(shsurf->desktop_surface);
 	struct weston_compositor *compositor = shell->compositor;
@@ -2605,7 +2605,7 @@ static void
 desktop_surface_committed(struct weston_desktop_surface *desktop_surface,
 			  int32_t sx, int32_t sy, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf =
 		weston_desktop_surface_get_user_data(desktop_surface);
 	struct weston_surface *surface =
@@ -2707,7 +2707,7 @@ desktop_surface_committed(struct weston_desktop_surface *desktop_surface,
 static void
 get_maximized_size(struct shell_surface *shsurf, int32_t *width, int32_t *height)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell;
 	pixman_rectangle32_t area;
 
@@ -2722,7 +2722,7 @@ static void
 set_fullscreen(struct shell_surface *shsurf, bool fullscreen,
 	       struct weston_output *output)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_desktop_surface *desktop_surface = shsurf->desktop_surface;
 	struct weston_surface *surface =
 		weston_desktop_surface_get_surface(shsurf->desktop_surface);
@@ -2753,7 +2753,7 @@ static void
 desktop_surface_move(struct weston_desktop_surface *desktop_surface,
 		     struct weston_seat *seat, uint32_t serial, void *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_pointer *pointer = weston_seat_get_pointer(seat);
 	struct weston_touch *touch = weston_seat_get_touch(seat);
 	struct shell_surface *shsurf =
@@ -2786,7 +2786,7 @@ desktop_surface_resize(struct weston_desktop_surface *desktop_surface,
 		       struct weston_seat *seat, uint32_t serial,
 		       enum weston_desktop_surface_edge edges, void *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_pointer *pointer = weston_seat_get_pointer(seat);
 	struct shell_surface *shsurf =
 		weston_desktop_surface_get_user_data(desktop_surface);
@@ -2814,7 +2814,7 @@ desktop_surface_set_parent(struct weston_desktop_surface *desktop_surface,
 			   struct weston_desktop_surface *parent,
 			   void *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf_parent;
 	struct shell_surface *shsurf =
 		weston_desktop_surface_get_user_data(desktop_surface);
@@ -2836,7 +2836,7 @@ desktop_surface_fullscreen_requested(struct weston_desktop_surface *desktop_surf
 				     bool fullscreen,
 				     struct weston_output *output, void *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf =
 		weston_desktop_surface_get_user_data(desktop_surface);
 
@@ -2846,7 +2846,7 @@ desktop_surface_fullscreen_requested(struct weston_desktop_surface *desktop_surf
 static void
 set_maximized(struct shell_surface *shsurf, bool maximized)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_desktop_surface *desktop_surface = shsurf->desktop_surface;
 	struct weston_surface *surface =
 		weston_desktop_surface_get_surface(shsurf->desktop_surface);
@@ -2872,7 +2872,7 @@ static void
 desktop_surface_maximized_requested(struct weston_desktop_surface *desktop_surface,
 				    bool maximized, void *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf =
 		weston_desktop_surface_get_user_data(desktop_surface);
 
@@ -2883,7 +2883,7 @@ static void
 desktop_surface_minimized_requested(struct weston_desktop_surface *desktop_surface,
 				    void *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *surface =
 		weston_desktop_surface_get_surface(desktop_surface);
 
@@ -2894,7 +2894,7 @@ desktop_surface_minimized_requested(struct weston_desktop_surface *desktop_surfa
 static void
 set_busy_cursor(struct shell_surface *shsurf, struct weston_pointer *pointer)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_grab *grab;
 
 	if (pointer->grab->interface == &busy_cursor_grab_interface)
@@ -2915,7 +2915,7 @@ static void
 end_busy_cursor(struct weston_compositor *compositor,
 		struct weston_desktop_client *desktop_client)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf;
 	struct shell_grab *grab;
 	struct weston_seat *seat;
@@ -2948,7 +2948,7 @@ static void
 desktop_surface_set_unresponsive(struct weston_desktop_surface *desktop_surface,
 				 void *user_data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf =
 		weston_desktop_surface_get_user_data(desktop_surface);
 	bool *unresponsive = user_data;
@@ -2960,7 +2960,7 @@ static void
 desktop_surface_ping_timeout(struct weston_desktop_client *desktop_client,
 			     void *shell_)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = shell_;
 	struct shell_surface *shsurf;
 	struct weston_seat *seat;
@@ -2993,7 +2993,7 @@ static void
 desktop_surface_pong(struct weston_desktop_client *desktop_client,
 		     void *shell_)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = shell_;
 	bool unresponsive = false;
 
@@ -3007,7 +3007,7 @@ static void
 desktop_surface_set_xwayland_position(struct weston_desktop_surface *surface,
 				      int32_t x, int32_t y, void *shell_)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf =
 		weston_desktop_surface_get_user_data(surface);
 
@@ -3038,7 +3038,7 @@ static const struct weston_desktop_api shell_desktop_api = {
 static void
 configure_static_view(struct weston_view *ev, struct weston_layer *layer, int x, int y)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_view *v, *next;
 
 	if (!ev->output)
@@ -3067,7 +3067,7 @@ static struct shell_output *
 find_shell_output_from_weston_output(struct desktop_shell *shell,
 				     struct weston_output *output)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_output *shell_output;
 
 	wl_list_for_each(shell_output, &shell->output_list, link) {
@@ -3081,15 +3081,15 @@ find_shell_output_from_weston_output(struct desktop_shell *shell,
 static int
 background_get_label(struct weston_surface *surface, char *buf, size_t len)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
-	return snprintf(buf, len, "background for output %s",
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	return snweston_log(buf, len, "background for output %s",
 			(surface->output ? surface->output->name : "NULL"));
 }
 
 static void
 background_committed(struct weston_surface *es, int32_t sx, int32_t sy)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = es->committed_private;
 	struct weston_view *view;
 
@@ -3101,7 +3101,7 @@ background_committed(struct weston_surface *es, int32_t sx, int32_t sy)
 static void
 handle_background_surface_destroy(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_output *output =
 	    container_of(listener, struct shell_output, background_surface_listener);
 
@@ -3116,7 +3116,7 @@ desktop_shell_set_background(struct wl_client *client,
 			     struct wl_resource *output_resource,
 			     struct wl_resource *surface_resource)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = wl_resource_get_user_data(resource);
 	struct weston_surface *surface =
 		wl_resource_get_user_data(surface_resource);
@@ -3165,15 +3165,15 @@ desktop_shell_set_background(struct wl_client *client,
 static int
 panel_get_label(struct weston_surface *surface, char *buf, size_t len)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
-	return snprintf(buf, len, "panel for output %s",
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	return snweston_log(buf, len, "panel for output %s",
 			(surface->output ? surface->output->name : "NULL"));
 }
 
 static void
 panel_committed(struct weston_surface *es, int32_t sx, int32_t sy)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = es->committed_private;
 	struct weston_view *view;
 	int width, height;
@@ -3201,7 +3201,7 @@ panel_committed(struct weston_surface *es, int32_t sx, int32_t sy)
 static void
 handle_panel_surface_destroy(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_output *output =
 	    container_of(listener, struct shell_output, panel_surface_listener);
 
@@ -3217,7 +3217,7 @@ desktop_shell_set_panel(struct wl_client *client,
 			struct wl_resource *output_resource,
 			struct wl_resource *surface_resource)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = wl_resource_get_user_data(resource);
 	struct weston_surface *surface =
 		wl_resource_get_user_data(surface_resource);
@@ -3264,14 +3264,14 @@ desktop_shell_set_panel(struct wl_client *client,
 static int
 lock_surface_get_label(struct weston_surface *surface, char *buf, size_t len)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
-	return snprintf(buf, len, "lock window");
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	return snweston_log(buf, len, "lock window");
 }
 
 static void
 lock_surface_committed(struct weston_surface *surface, int32_t sx, int32_t sy)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = surface->committed_private;
 	struct weston_view *view;
 
@@ -3295,7 +3295,7 @@ lock_surface_committed(struct weston_surface *surface, int32_t sx, int32_t sy)
 static void
 handle_lock_surface_destroy(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell =
 	    container_of(listener, struct desktop_shell, lock_surface_listener);
 
@@ -3308,7 +3308,7 @@ desktop_shell_set_lock_surface(struct wl_client *client,
 			       struct wl_resource *resource,
 			       struct wl_resource *surface_resource)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = wl_resource_get_user_data(resource);
 	struct weston_surface *surface =
 		wl_resource_get_user_data(surface_resource);
@@ -3333,7 +3333,7 @@ desktop_shell_set_lock_surface(struct wl_client *client,
 static void
 resume_desktop(struct desktop_shell *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct workspace *ws = get_current_workspace(shell);
 
 	weston_layer_unset_position(&shell->lock_layer);
@@ -3358,7 +3358,7 @@ static void
 desktop_shell_unlock(struct wl_client *client,
 		     struct wl_resource *resource)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = wl_resource_get_user_data(resource);
 
 	shell->prepare_event_sent = false;
@@ -3372,7 +3372,7 @@ desktop_shell_set_grab_surface(struct wl_client *client,
 			       struct wl_resource *resource,
 			       struct wl_resource *surface_resource)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = wl_resource_get_user_data(resource);
 
 	shell->grab_surface = wl_resource_get_user_data(surface_resource);
@@ -3383,7 +3383,7 @@ static void
 desktop_shell_desktop_ready(struct wl_client *client,
 			    struct wl_resource *resource)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = wl_resource_get_user_data(resource);
 
 	shell_fade_startup(shell);
@@ -3394,7 +3394,7 @@ desktop_shell_set_panel_position(struct wl_client *client,
 				 struct wl_resource *resource,
 				 uint32_t position)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = wl_resource_get_user_data(resource);
 
 	if (position != WESTON_DESKTOP_SHELL_PANEL_POSITION_TOP &&
@@ -3424,7 +3424,7 @@ static void
 move_binding(struct weston_pointer *pointer, const struct timespec *time,
 	     uint32_t button, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *focus;
 	struct weston_surface *surface;
 	struct shell_surface *shsurf;
@@ -3451,7 +3451,7 @@ static void
 maximize_binding(struct weston_keyboard *keyboard, const struct timespec *time,
 		 uint32_t button, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *focus = keyboard->focus;
 	struct weston_surface *surface;
 	struct shell_surface *shsurf;
@@ -3471,7 +3471,7 @@ static void
 fullscreen_binding(struct weston_keyboard *keyboard,
 		   const struct timespec *time, uint32_t button, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *focus = keyboard->focus;
 	struct weston_surface *surface;
 	struct shell_surface *shsurf;
@@ -3494,7 +3494,7 @@ fullscreen_binding(struct weston_keyboard *keyboard,
 static void
 touch_move_binding(struct weston_touch *touch, const struct timespec *time, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *focus;
 	struct weston_surface *surface;
 	struct shell_surface *shsurf;
@@ -3520,7 +3520,7 @@ static void
 resize_binding(struct weston_pointer *pointer, const struct timespec *time,
 	       uint32_t button, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *focus;
 	struct weston_surface *surface;
 	uint32_t edges = 0;
@@ -3570,7 +3570,7 @@ surface_opacity_binding(struct weston_pointer *pointer,
 			struct weston_pointer_axis_event *event,
 			void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	float step = 0.005;
 	struct shell_surface *shsurf;
 	struct weston_surface *focus = pointer->focus->surface;
@@ -3600,7 +3600,7 @@ static void
 do_zoom(struct weston_seat *seat, const struct timespec *time, uint32_t key,
 	uint32_t axis, double value)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_compositor *compositor = seat->compositor;
 	struct weston_pointer *pointer = weston_seat_get_pointer(seat);
 	struct weston_output *output;
@@ -3652,7 +3652,7 @@ zoom_axis_binding(struct weston_pointer *pointer, const struct timespec *time,
 		  struct weston_pointer_axis_event *event,
 		  void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	do_zoom(pointer->seat, time, 0, event->axis, event->value);
 }
 
@@ -3660,7 +3660,7 @@ static void
 zoom_key_binding(struct weston_keyboard *keyboard, const struct timespec *time,
 		 uint32_t key, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	do_zoom(keyboard->seat, time, key, 0, 0);
 }
 
@@ -3668,7 +3668,7 @@ static void
 terminate_binding(struct weston_keyboard *keyboard, const struct timespec *time,
 		  uint32_t key, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_compositor *compositor = data;
 
 	weston_compositor_exit(compositor);
@@ -3679,7 +3679,7 @@ rotate_grab_motion(struct weston_pointer_grab *grab,
 		   const struct timespec *time,
 		   struct weston_pointer_motion_event *event)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct rotate_grab *rotate =
 		container_of(grab, struct rotate_grab, base.grab);
 	struct weston_pointer *pointer = grab->pointer;
@@ -3749,7 +3749,7 @@ rotate_grab_button(struct weston_pointer_grab *grab,
 		   const struct timespec *time,
 		   uint32_t button, uint32_t state_w)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct rotate_grab *rotate =
 		container_of(grab, struct rotate_grab, base.grab);
 	struct weston_pointer *pointer = grab->pointer;
@@ -3769,7 +3769,7 @@ rotate_grab_button(struct weston_pointer_grab *grab,
 static void
 rotate_grab_cancel(struct weston_pointer_grab *grab)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct rotate_grab *rotate =
 		container_of(grab, struct rotate_grab, base.grab);
 
@@ -3790,7 +3790,7 @@ static const struct weston_pointer_grab_interface rotate_grab_interface = {
 static void
 surface_rotate(struct shell_surface *shsurf, struct weston_pointer *pointer)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *surface =
 		weston_desktop_surface_get_surface(shsurf->desktop_surface);
 	struct rotate_grab *rotate;
@@ -3831,7 +3831,7 @@ static void
 rotate_binding(struct weston_pointer *pointer, const struct timespec *time,
 	       uint32_t button, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *focus;
 	struct weston_surface *base_surface;
 	struct shell_surface *surface;
@@ -3868,7 +3868,7 @@ void
 lower_fullscreen_layer(struct desktop_shell *shell,
 		       struct weston_output *lowering_output)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct workspace *ws;
 	struct weston_view *view, *prev;
 
@@ -3909,7 +3909,7 @@ lower_fullscreen_layer(struct desktop_shell *shell,
 
 static struct shell_surface *get_last_child(struct shell_surface *shsurf)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_surface *shsurf_child;
 
 	wl_list_for_each_reverse(shsurf_child, &shsurf->children_list, children_link) {
@@ -3924,7 +3924,7 @@ void
 activate(struct desktop_shell *shell, struct weston_view *view,
 	 struct weston_seat *seat, uint32_t flags)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *es = view->surface;
 	struct weston_surface *main_surface;
 	struct focus_state *state;
@@ -3987,13 +3987,13 @@ activate(struct desktop_shell *shell, struct weston_view *view,
 static void
 black_surface_committed(struct weston_surface *es, int32_t sx, int32_t sy)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 }
 
 static bool
 is_black_surface_view(struct weston_view *view, struct weston_view **fs_view)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *surface = view->surface;
 
 	if (surface->committed == black_surface_committed) {
@@ -4010,7 +4010,7 @@ activate_binding(struct weston_seat *seat,
 		 struct weston_view *focus_view,
 		 uint32_t flags)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_view *main_view;
 	struct weston_surface *main_surface;
 
@@ -4032,7 +4032,7 @@ click_to_activate_binding(struct weston_pointer *pointer,
 		          const struct timespec *time,
 			  uint32_t button, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	if (pointer->grab != &pointer->default_grab)
 		return;
 	if (pointer->focus == NULL)
@@ -4048,7 +4048,7 @@ touch_to_activate_binding(struct weston_touch *touch,
 			  const struct timespec *time,
 			  void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	if (touch->grab != &touch->default_grab)
 		return;
 	if (touch->focus == NULL)
@@ -4061,7 +4061,7 @@ touch_to_activate_binding(struct weston_touch *touch,
 static void
 unfocus_all_seats(struct desktop_shell *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_seat *seat, *next;
 
 	wl_list_for_each_safe(seat, next, &shell->compositor->seat_list, link) {
@@ -4078,7 +4078,7 @@ unfocus_all_seats(struct desktop_shell *shell)
 static void
 lock(struct desktop_shell *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct workspace *ws = get_current_workspace(shell);
 
 	if (shell->locked) {
@@ -4116,7 +4116,7 @@ lock(struct desktop_shell *shell)
 static void
 unlock(struct desktop_shell *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct wl_resource *shell_resource;
 
 	if (!shell->locked || shell->lock_surface) {
@@ -4141,7 +4141,7 @@ unlock(struct desktop_shell *shell)
 static void
 shell_fade_done_for_output(struct weston_view_animation *animation, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_output *shell_output = data;
 	struct desktop_shell *shell = shell_output->shell;
 
@@ -4162,7 +4162,7 @@ shell_fade_done_for_output(struct weston_view_animation *animation, void *data)
 static struct weston_view *
 shell_fade_create_surface_for_output(struct desktop_shell *shell, struct shell_output *shell_output)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_compositor *compositor = shell->compositor;
 	struct weston_surface *surface;
 	struct weston_view *view;
@@ -4193,7 +4193,7 @@ static struct weston_view *
 shell_fade_create_fade_out_view(struct shell_surface *shsurf,
 				struct weston_surface *surface)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_view *view;
 	struct weston_output *woutput;
 
@@ -4216,7 +4216,7 @@ shell_fade_create_fade_out_view(struct shell_surface *shsurf,
 static void
 shell_fade(struct desktop_shell *shell, enum fade_type type)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	float tint;
 	struct shell_output *shell_output;
 
@@ -4267,7 +4267,7 @@ shell_fade(struct desktop_shell *shell, enum fade_type type)
 static void
 do_shell_fade_startup(void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = data;
 	struct shell_output *shell_output;
 
@@ -4287,7 +4287,7 @@ do_shell_fade_startup(void *data)
 static void
 shell_fade_startup(struct desktop_shell *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct wl_event_loop *loop;
 	struct shell_output *shell_output;
 	bool has_fade = false;
@@ -4310,7 +4310,7 @@ shell_fade_startup(struct desktop_shell *shell)
 static int
 fade_startup_timeout(void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = data;
 
 	shell_fade_startup(shell);
@@ -4320,7 +4320,7 @@ fade_startup_timeout(void *data)
 static void
 shell_fade_init(struct desktop_shell *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	/* Make compositor output all black, and wait for the desktop-shell
 	 * client to signal it is ready, then fade in. The timer triggers a
 	 * fade-in, in case the desktop-shell client takes too long.
@@ -4356,7 +4356,7 @@ shell_fade_init(struct desktop_shell *shell)
 static void
 idle_handler(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell =
 		container_of(listener, struct desktop_shell, idle_listener);
 
@@ -4372,7 +4372,7 @@ idle_handler(struct wl_listener *listener, void *data)
 static void
 wake_handler(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell =
 		container_of(listener, struct desktop_shell, wake_listener);
 
@@ -4382,7 +4382,7 @@ wake_handler(struct wl_listener *listener, void *data)
 static void
 transform_handler(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *surface = data;
 	struct shell_surface *shsurf = get_shell_surface(surface);
 	const struct weston_xwayland_surface_api *api;
@@ -4413,7 +4413,7 @@ static void
 weston_view_set_initial_position(struct weston_view *view,
 				 struct desktop_shell *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_compositor *compositor = shell->compositor;
 	int ix = 0, iy = 0;
 	int32_t range_x, range_y;
@@ -4473,7 +4473,7 @@ weston_view_set_initial_position(struct weston_view *view,
 static bool
 check_desktop_shell_crash_too_early(struct desktop_shell *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct timespec now;
 
 	if (clock_gettime(CLOCK_MONOTONIC, &now) < 0)
@@ -4503,7 +4503,7 @@ static void launch_desktop_shell_process(void *data);
 static void
 respawn_desktop_shell_process(struct desktop_shell *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct timespec time;
 
 	/* if desktop-shell dies more than 5 times in 30 seconds, give up */
@@ -4526,7 +4526,7 @@ respawn_desktop_shell_process(struct desktop_shell *shell)
 static void
 desktop_shell_client_destroy(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell;
 
 	shell = container_of(listener, struct desktop_shell,
@@ -4551,7 +4551,7 @@ desktop_shell_client_destroy(struct wl_listener *listener, void *data)
 static void
 launch_desktop_shell_process(void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = data;
 
 	shell->child.client = weston_client_start(shell->compositor,
@@ -4571,7 +4571,7 @@ launch_desktop_shell_process(void *data)
 static void
 unbind_desktop_shell(struct wl_resource *resource)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = wl_resource_get_user_data(resource);
 
 	if (shell->locked)
@@ -4585,7 +4585,7 @@ static void
 bind_desktop_shell(struct wl_client *client,
 		   void *data, uint32_t version, uint32_t id)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = data;
 	struct wl_resource *resource;
 
@@ -4615,7 +4615,7 @@ struct switcher {
 static void
 switcher_next(struct switcher *switcher)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_view *view;
 	struct weston_view *first = NULL, *prev = NULL, *next = NULL;
 	struct shell_surface *shsurf;
@@ -4672,7 +4672,7 @@ switcher_next(struct switcher *switcher)
 static void
 switcher_handle_view_destroy(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct switcher *switcher =
 		container_of(listener, struct switcher, listener);
 
@@ -4682,7 +4682,7 @@ switcher_handle_view_destroy(struct wl_listener *listener, void *data)
 static void
 switcher_destroy(struct switcher *switcher)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_view *view;
 	struct weston_keyboard *keyboard = switcher->grab.keyboard;
 	struct workspace *ws = get_current_workspace(switcher->shell);
@@ -4725,7 +4725,7 @@ static void
 switcher_key(struct weston_keyboard_grab *grab,
 	     const struct timespec *time, uint32_t key, uint32_t state_w)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct switcher *switcher = container_of(grab, struct switcher, grab);
 	enum wl_keyboard_key_state state = state_w;
 
@@ -4738,7 +4738,7 @@ switcher_modifier(struct weston_keyboard_grab *grab, uint32_t serial,
 		  uint32_t mods_depressed, uint32_t mods_latched,
 		  uint32_t mods_locked, uint32_t group)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct switcher *switcher = container_of(grab, struct switcher, grab);
 	struct weston_seat *seat = grab->keyboard->seat;
 
@@ -4749,7 +4749,7 @@ switcher_modifier(struct weston_keyboard_grab *grab, uint32_t serial,
 static void
 switcher_cancel(struct weston_keyboard_grab *grab)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct switcher *switcher = container_of(grab, struct switcher, grab);
 
 	switcher_destroy(switcher);
@@ -4765,7 +4765,7 @@ static void
 switcher_binding(struct weston_keyboard *keyboard, const struct timespec *time,
 		 uint32_t key, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = data;
 	struct switcher *switcher;
 
@@ -4790,7 +4790,7 @@ static void
 backlight_binding(struct weston_keyboard *keyboard, const struct timespec *time,
 		  uint32_t key, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_compositor *compositor = data;
 	struct weston_output *output;
 	long backlight_new = 0;
@@ -4824,7 +4824,7 @@ static void
 force_kill_binding(struct weston_keyboard *keyboard,
 		   const struct timespec *time, uint32_t key, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *focus_surface;
 	struct wl_client *client;
 	struct desktop_shell *shell = data;
@@ -4852,7 +4852,7 @@ static void
 workspace_up_binding(struct weston_keyboard *keyboard,
 		     const struct timespec *time, uint32_t key, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = data;
 	unsigned int new_index = shell->workspaces.current;
 
@@ -4868,7 +4868,7 @@ static void
 workspace_down_binding(struct weston_keyboard *keyboard,
 		       const struct timespec *time, uint32_t key, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = data;
 	unsigned int new_index = shell->workspaces.current;
 
@@ -4884,7 +4884,7 @@ static void
 workspace_f_binding(struct weston_keyboard *keyboard,
 		    const struct timespec *time, uint32_t key, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = data;
 	unsigned int new_index;
 
@@ -4902,7 +4902,7 @@ workspace_move_surface_up_binding(struct weston_keyboard *keyboard,
 				  const struct timespec *time, uint32_t key,
 				  void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = data;
 	unsigned int new_index = shell->workspaces.current;
 
@@ -4920,7 +4920,7 @@ workspace_move_surface_down_binding(struct weston_keyboard *keyboard,
 				    const struct timespec *time, uint32_t key,
 				    void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = data;
 	unsigned int new_index = shell->workspaces.current;
 
@@ -4936,7 +4936,7 @@ workspace_move_surface_down_binding(struct weston_keyboard *keyboard,
 static void
 shell_reposition_view_on_output_change(struct weston_view *view)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_output *output, *first_output;
 	struct weston_compositor *ec = view->surface->compositor;
 	struct shell_surface *shsurf;
@@ -4987,7 +4987,7 @@ void
 shell_for_each_layer(struct desktop_shell *shell,
 		     shell_for_each_layer_func_t func, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct workspace **ws;
 
 	func(shell, &shell->fullscreen_layer, data);
@@ -5005,7 +5005,7 @@ shell_output_changed_move_layer(struct desktop_shell *shell,
 				struct weston_layer *layer,
 				void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_view *view;
 
 	wl_list_for_each(view, &layer->view_list.link, layer_link.link)
@@ -5016,7 +5016,7 @@ shell_output_changed_move_layer(struct desktop_shell *shell,
 static void
 shell_output_destroy(struct shell_output *shell_output)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell = shell_output->shell;
 
 	shell_for_each_layer(shell, shell_output_changed_move_layer, NULL);
@@ -5046,7 +5046,7 @@ shell_output_destroy(struct shell_output *shell_output)
 static void
 handle_output_destroy(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_output *shell_output =
 		container_of(listener, struct shell_output, destroy_listener);
 
@@ -5058,7 +5058,7 @@ shell_resize_surface_to_output(struct desktop_shell *shell,
 				struct weston_surface *surface,
 				const struct weston_output *output)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	if (!surface)
 		return;
 
@@ -5072,7 +5072,7 @@ shell_resize_surface_to_output(struct desktop_shell *shell,
 static void
 handle_output_resized(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell =
 		container_of(listener, struct desktop_shell, resized_listener);
 	struct weston_output *output = (struct weston_output *)data;
@@ -5086,7 +5086,7 @@ static void
 create_shell_output(struct desktop_shell *shell,
 					struct weston_output *output)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct shell_output *shell_output;
 
 	shell_output = zalloc(sizeof *shell_output);
@@ -5108,7 +5108,7 @@ create_shell_output(struct desktop_shell *shell,
 static void
 handle_output_create(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell =
 		container_of(listener, struct desktop_shell, output_create_listener);
 	struct weston_output *output = (struct weston_output *)data;
@@ -5120,7 +5120,7 @@ static void
 handle_output_move_layer(struct desktop_shell *shell,
 			 struct weston_layer *layer, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_output *output = data;
 	struct weston_view *view;
 	float x, y;
@@ -5138,7 +5138,7 @@ handle_output_move_layer(struct desktop_shell *shell,
 static void
 handle_output_move(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell;
 
 	shell = container_of(listener, struct desktop_shell,
@@ -5151,7 +5151,7 @@ static void
 setup_output_destroy_handler(struct weston_compositor *ec,
 							struct desktop_shell *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_output *output;
 
 	wl_list_init(&shell->output_list);
@@ -5169,7 +5169,7 @@ setup_output_destroy_handler(struct weston_compositor *ec,
 static void
 desktop_shell_destroy_layer(struct weston_layer *layer)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_view *view, *view_next;
 
 	wl_list_for_each_safe(view, view_next, &layer->view_list.link, layer_link.link) {
@@ -5202,7 +5202,7 @@ desktop_shell_destroy_layer(struct weston_layer *layer)
 static void
 shell_destroy(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct desktop_shell *shell =
 		container_of(listener, struct desktop_shell, destroy_listener);
 	struct workspace **ws;
@@ -5256,7 +5256,7 @@ shell_destroy(struct wl_listener *listener, void *data)
 static void
 shell_add_bindings(struct weston_compositor *ec, struct desktop_shell *shell)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	uint32_t mod;
 	int i, num_workspace_bindings;
 
@@ -5356,7 +5356,7 @@ shell_add_bindings(struct weston_compositor *ec, struct desktop_shell *shell)
 static void
 handle_seat_created(struct wl_listener *listener, void *data)
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_seat *seat = data;
 	struct desktop_shell *shell =
 		container_of(listener, struct desktop_shell, seat_create_listener);
@@ -5368,7 +5368,7 @@ WL_EXPORT int
 wet_shell_init(struct weston_compositor *ec,
 	       int *argc, char *argv[])
 {
-	printf("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
+	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_seat *seat;
 	struct desktop_shell *shell;
 	struct workspace **pws;
