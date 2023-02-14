@@ -540,8 +540,10 @@ static int
 focus_surface_get_label(struct weston_surface *surface, char *buf, size_t len)
 {
 	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
-	return snprintf(buf, len, "focus highlight effect for output %s",
+	int ret_snprintf = snprintf(buf, len, "focus highlight effect for output %s",
 			(surface->output ? surface->output->name : "NULL"));
+    weston_log("buf=%s\n", buf);
+    return ret_snprintf;
 }
 
 /* no-op func for checking focus surface */
@@ -3082,8 +3084,10 @@ static int
 background_get_label(struct weston_surface *surface, char *buf, size_t len)
 {
 	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
-	return snprintf(buf, len, "background for output %s",
+	int ret_snprintf = snprintf(buf, len, "background for output %s",
 			(surface->output ? surface->output->name : "NULL"));
+    weston_log("buf=%s\n", buf);
+    return ret_snprintf;
 }
 
 static void
@@ -3166,8 +3170,10 @@ static int
 panel_get_label(struct weston_surface *surface, char *buf, size_t len)
 {
 	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
-	return snprintf(buf, len, "panel for output %s",
-			(surface->output ? surface->output->name : "NULL"));
+	int ret_snprintf = snprintf(buf, len, "panel for output %s",
+            (surface->output ? surface->output->name : "NULL"));
+    weston_log("buf=%s\n", buf);
+    return ret_snprintf;
 }
 
 static void
@@ -3265,7 +3271,9 @@ static int
 lock_surface_get_label(struct weston_surface *surface, char *buf, size_t len)
 {
 	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
-	return snprintf(buf, len, "lock window");
+	int ret_snprintf = snprintf(buf, len, "lock window");
+    weston_log("buf=%s\n", buf);
+    return ret_snprintf;
 }
 
 static void
