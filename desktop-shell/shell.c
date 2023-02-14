@@ -2372,7 +2372,6 @@ fade_out_done(struct weston_view_animation *animation, void *data)
 struct shell_surface *
 get_shell_surface(struct weston_surface *surface)
 {
-	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	if (weston_surface_is_desktop_surface(surface)) {
 		struct weston_desktop_surface *desktop_surface =
 			weston_surface_get_desktop_surface(surface);
@@ -3083,11 +3082,8 @@ find_shell_output_from_weston_output(struct desktop_shell *shell,
 static int
 background_get_label(struct weston_surface *surface, char *buf, size_t len)
 {
-	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
-	int ret_snprintf = snprintf(buf, len, "background for output %s",
+    return snprintf(buf, len, "background for output %s",
 			(surface->output ? surface->output->name : "NULL"));
-    weston_log("buf=%s\n", buf);
-    return ret_snprintf;
 }
 
 static void
@@ -3169,11 +3165,8 @@ desktop_shell_set_background(struct wl_client *client,
 static int
 panel_get_label(struct weston_surface *surface, char *buf, size_t len)
 {
-	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
-	int ret_snprintf = snprintf(buf, len, "panel for output %s",
+    return snprintf(buf, len, "panel for output %s",
             (surface->output ? surface->output->name : "NULL"));
-    weston_log("buf=%s\n", buf);
-    return ret_snprintf;
 }
 
 static void
@@ -4040,7 +4033,6 @@ click_to_activate_binding(struct weston_pointer *pointer,
 		          const struct timespec *time,
 			  uint32_t button, void *data)
 {
-	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	if (pointer->grab != &pointer->default_grab)
 		return;
 	if (pointer->focus == NULL)
@@ -4390,7 +4382,6 @@ wake_handler(struct wl_listener *listener, void *data)
 static void
 transform_handler(struct wl_listener *listener, void *data)
 {
-	weston_log("%s:%d (%s)\n", __FILE__, __LINE__, __FUNCTION__);
 	struct weston_surface *surface = data;
 	struct shell_surface *shsurf = get_shell_surface(surface);
 	const struct weston_xwayland_surface_api *api;
